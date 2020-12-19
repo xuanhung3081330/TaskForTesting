@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TestingTask.Common;
-using TestingTask.Repositories.Interfaces;
+using TestingTask.Domain.Actuals;
+using TestingTask.Domain.Estimates;
 
 namespace TestingTask.Controllers
 {
@@ -23,7 +21,7 @@ namespace TestingTask.Controllers
             IEstimateRepository estimateRepo,
             IUrlHelper urlHelper)
         {
-             _actualRepo = actualRepo;
+            _actualRepo = actualRepo;
             _estimateRepo = estimateRepo;
             _urlHelper = urlHelper;
         }

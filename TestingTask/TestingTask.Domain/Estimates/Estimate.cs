@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace TestingTask.DALs
+namespace TestingTask.Domain.Estimates
 {
-    public class Estimates
+    public class Estimate
     {
-        [Key]
         public int Id { get; set; }
         public int State { get; set; }
         public int Districts { get; set; }

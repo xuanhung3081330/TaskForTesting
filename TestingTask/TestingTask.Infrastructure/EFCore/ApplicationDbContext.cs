@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestingTask.DALs
+namespace TestingTask.Infrastructure.EFCore
 {
     public class ApplicationDbContext : DbContext
     {
