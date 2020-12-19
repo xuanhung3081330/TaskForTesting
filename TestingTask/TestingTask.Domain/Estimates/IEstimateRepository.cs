@@ -7,6 +7,6 @@ namespace TestingTask.Domain.Estimates
 {
     public interface IEstimateRepository
     {
-        Task<List<Estimate>> GetAllEstimates(string state);
+        Task<IEnumerable<Estimate>> GetAllEstimates(string state);
     }
 }

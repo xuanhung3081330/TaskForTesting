@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace TestingTask.Infrastructure.Implementations.Repositories
             _context = context;
         }
 
-        public async Task<List<Actual>> GetAll(string state, string route)
+        public async Task<IEnumerable<Actual>> GetAllActualsAsync(string state)
         {
-            List<Actual> result = new List<Actual>();
+            IEnumerable<Actual> result = null;
             if (!string.IsNullOrEmpty(state))
             {
                 List<string> states = state.Split(",").ToList();

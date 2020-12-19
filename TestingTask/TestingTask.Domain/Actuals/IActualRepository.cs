@@ -7,6 +7,6 @@ namespace TestingTask.Domain.Actuals
 {
     public interface IActualRepository
     {
-        Task<List<Actual>> GetAll(string state, string route);
+        Task<IEnumerable<Actual>> GetAllActualsAsync(string route);
     }
 }

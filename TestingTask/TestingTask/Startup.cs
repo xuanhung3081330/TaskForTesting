@@ -1,19 +1,17 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TestingTask.DALs;
-using TestingTask.Repositories.Implementations;
-using TestingTask.Repositories.Interfaces;
+using System.Reflection;
+using TestingTask.Domain.Actuals;
+using TestingTask.Domain.Estimates;
+using TestingTask.Infrastructure.EFCore;
+using TestingTask.Infrastructure.Implementations.Repositories;
 
 namespace TestingTask
 {
@@ -42,6 +40,8 @@ namespace TestingTask
                 var actionContext = x.GetService<IActionContextAccessor>().ActionContext;
                 return new UrlHelper(actionContext);
             });
+
+            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

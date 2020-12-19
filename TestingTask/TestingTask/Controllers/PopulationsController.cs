@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using TestingTask.Application.Queries.GetPopulationsQuery;
 using TestingTask.Common;
-using TestingTask.Domain.Actuals;
-using TestingTask.Domain.Estimates;
 
 namespace TestingTask.Controllers
 {
@@ -12,43 +11,24 @@ namespace TestingTask.Controllers
     [ApiController]
     public class PopulationsController : ControllerBase
     {
-        private readonly IActualRepository _actualRepo;
-        private readonly IEstimateRepository _estimateRepo;
         private IUrlHelper _urlHelper;
+        private readonly IMediator _mediator;
 
         public PopulationsController(
-            IActualRepository actualRepo,
-            IEstimateRepository estimateRepo,
-            IUrlHelper urlHelper)
+            IUrlHelper urlHelper,
+            IMediator mediator)
         {
-            _actualRepo = actualRepo;
-            _estimateRepo = estimateRepo;
             _urlHelper = urlHelper;
+            _mediator = mediator;
         }
 
-        public async Task<IActionResult> GetPopulations([FromQuery] string state)
+        public async Task<IActionResult> GetPopulations([FromQuery]GetPopulationsRequestModel request)
         {
             string route = _urlHelper.ActionContext.HttpContext.Request.Path.Value;
-            TraceLogWriter.LogWriter(route, state);
-            var records = await _actualRepo.GetAll(state, route);
-            var resultActual = records.Select(item => new { item.State, item.ActualPopulation }).ToList();
-            if (resultActual.Count != 0)
-            {
-                return Ok(resultActual);
-            }
-            else
-            {
-                var recordsEstimate = await _estimateRepo.GetAllEstimates(state);
-                var resultEstimate = recordsEstimate.Select(item => new { item.State, item.EstimatesPopulation }).ToList();
-                if (resultEstimate.Count != 0)
-                {
-                    return Ok(resultEstimate);
-                }
-                else
-                {
-                    return Ok(HttpStatusCode.NotFound);
-                }
-            }
+            TraceLogWriter.LogWriter(route, request.State);
+            var response = _mediator.Send(request);
+
+            return Ok(HttpStatusCode.OK);
         }
     }
 }
