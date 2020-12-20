@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Reflection;
+using TestingTask.Application;
+using TestingTask.Application.IoC;
+using TestingTask.Application.Queries.GetPopulationsQuery;
 using TestingTask.Domain.Actuals;
 using TestingTask.Domain.Estimates;
 using TestingTask.Infrastructure.EFCore;
@@ -41,7 +45,12 @@ namespace TestingTask
                 return new UrlHelper(actionContext);
             });
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile());
+            });
+
+            MediatorConfiguration.Configuration(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
