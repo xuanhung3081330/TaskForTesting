@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,12 +46,8 @@ namespace TestingTask
                 return new UrlHelper(actionContext);
             });
 
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
-            });
-
-            MediatorConfiguration.Configuration(services);
+            TestingTask.Application.IoC.MapperConfiguration.Configuration(services);
+            TestingTask.Application.IoC.MediatorConfiguration.Configuration(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

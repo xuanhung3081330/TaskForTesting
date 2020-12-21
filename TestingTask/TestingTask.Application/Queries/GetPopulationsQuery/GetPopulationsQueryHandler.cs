@@ -15,12 +15,12 @@ namespace TestingTask.Application.Queries.GetPopulationsQuery
     {
         private readonly IActualRepository _actualRepo;
         private readonly IEstimateRepository _estimateRepo;
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
         public GetPopulationsQueryHandler(
             IActualRepository actualRepo,
             IEstimateRepository estimateRepo,
-            Mapper mapper)
+            IMapper mapper)
         {
             _actualRepo = actualRepo;
             _estimateRepo = estimateRepo;

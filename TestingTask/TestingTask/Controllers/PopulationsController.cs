@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TestingTask.Application.Queries.GetPopulationsQuery;
@@ -27,8 +28,13 @@ namespace TestingTask.Controllers
             string route = _urlHelper.ActionContext.HttpContext.Request.Path.Value;
             TraceLogWriter.LogWriter(route, request.State);
             var response = _mediator.Send(request);
+            var resultFromResponse = response.Result;
+            if (response.Result == null || response.Result.Count() == 0)
+            {
+                return Ok(HttpStatusCode.NotFound);
+            }
 
-            return Ok(HttpStatusCode.OK);
+            return Ok(response.Result);
         }
     }
 }

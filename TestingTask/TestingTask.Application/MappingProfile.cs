@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TestingTask.Application.Queries.GetPopulationsQuery;
+using TestingTask.Domain.Actuals;
 using TestingTask.Domain.Estimates;
 
 namespace TestingTask.Application
@@ -11,7 +12,7 @@ namespace TestingTask.Application
     {
         public MappingProfile()
         {
-            CreateMap<Estimate, GetPopulationsResponseModel>();
+            CreateMap<Actual, GetPopulationsResponseModel>();
         }
     }
 }
