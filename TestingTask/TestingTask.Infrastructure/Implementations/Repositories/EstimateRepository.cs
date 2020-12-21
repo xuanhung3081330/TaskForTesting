@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using TestingTask.DALs;
-using TestingTask.Repositories.Interfaces;
+using TestingTask.Domain.Actuals;
+using TestingTask.Domain.Estimates;
+using TestingTask.Infrastructure.EFCore;
 
-namespace TestingTask.Repositories.Implementations
+namespace TestingTask.Infrastructure.Implementations.Repositories
 {
     public class EstimateRepository : IEstimateRepository
     {
@@ -17,20 +19,18 @@ namespace TestingTask.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<List<Estimates>> GetAllEstimates(string state)
+        public async Task<IEnumerable<Estimate>> GetAllEstimates(string state)
         {
             List<string> states = state.Split(",").ToList();
             List<int> convertedStates = states.ConvertAll(int.Parse);
-            List<Estimates> result = new List<Estimates>();
-            result = await _context.Estimates
+            var result = await _context.Estimates
                 .Where(item => convertedStates.Contains(item.State))
                 .GroupBy(item => item.State)
-                .Select(item => new Estimates
+                .Select(item => new Estimate
                 {
                     EstimatesHouseholds = item.Sum(x => x.EstimatesHouseholds),
                     EstimatesPopulation = item.Sum(x => x.EstimatesPopulation)
-                })
-                .ToListAsync();
+                }).ToListAsync();
 
             return result;
         }

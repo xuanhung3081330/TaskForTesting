@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using TestingTask.DALs;
-using TestingTask.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using TestingTask.Domain.Actuals;
+using TestingTask.Infrastructure.EFCore;
 
-namespace TestingTask.Repositories.Implementations
+namespace TestingTask.Infrastructure.Implementations.Repositories
 {
     public class ActualRepository : IActualRepository
     {
@@ -17,9 +18,9 @@ namespace TestingTask.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<List<Actuals>> GetAll(string state, string route)
+        public async Task<IEnumerable<Actual>> GetAllActualsAsync(string state)
         {
-            List<Actuals> result = new List<Actuals>();
+            IEnumerable<Actual> result = null;
             if (!string.IsNullOrEmpty(state))
             {
                 List<string> states = state.Split(",").ToList();

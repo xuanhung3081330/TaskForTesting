@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestingTask.DALs;
 
-namespace TestingTask.Repositories.Interfaces
+namespace TestingTask.Domain.Actuals
 {
     public interface IActualRepository
     {
-        Task<List<Actuals>> GetAll(string state, string route);
+        Task<IEnumerable<Actual>> GetAllActualsAsync(string route);
     }
 }

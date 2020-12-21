@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using TestingTask.Application.Queries.GetPopulationsQuery;
 using TestingTask.Common;
-using TestingTask.Repositories.Interfaces;
 
 namespace TestingTask.Controllers
 {
@@ -14,43 +12,29 @@ namespace TestingTask.Controllers
     [ApiController]
     public class PopulationsController : ControllerBase
     {
-        private readonly IActualRepository _actualRepo;
-        private readonly IEstimateRepository _estimateRepo;
         private IUrlHelper _urlHelper;
+        private readonly IMediator _mediator;
 
         public PopulationsController(
-            IActualRepository actualRepo,
-            IEstimateRepository estimateRepo,
-            IUrlHelper urlHelper)
+            IUrlHelper urlHelper,
+            IMediator mediator)
         {
-             _actualRepo = actualRepo;
-            _estimateRepo = estimateRepo;
             _urlHelper = urlHelper;
+            _mediator = mediator;
         }
 
-        public async Task<IActionResult> GetPopulations([FromQuery] string state)
+        public async Task<IActionResult> GetPopulations([FromQuery]GetPopulationsRequestModel request)
         {
             string route = _urlHelper.ActionContext.HttpContext.Request.Path.Value;
-            TraceLogWriter.LogWriter(route, state);
-            var records = await _actualRepo.GetAll(state, route);
-            var resultActual = records.Select(item => new { item.State, item.ActualPopulation }).ToList();
-            if (resultActual.Count != 0)
+            TraceLogWriter.LogWriter(route, request.State);
+            var response = _mediator.Send(request);
+            var resultFromResponse = response.Result;
+            if (response.Result == null || response.Result.Count() == 0)
             {
-                return Ok(resultActual);
+                return Ok(HttpStatusCode.NotFound);
             }
-            else
-            {
-                var recordsEstimate = await _estimateRepo.GetAllEstimates(state);
-                var resultEstimate = recordsEstimate.Select(item => new { item.State, item.EstimatesPopulation }).ToList();
-                if (resultEstimate.Count != 0)
-                {
-                    return Ok(resultEstimate);
-                }
-                else
-                {
-                    return Ok(HttpStatusCode.NotFound);
-                }
-            }
+
+            return Ok(response.Result);
         }
     }
 }
