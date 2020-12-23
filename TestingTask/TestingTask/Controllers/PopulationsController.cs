@@ -8,7 +8,7 @@ using TestingTask.Common;
 
 namespace TestingTask.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PopulationsController : ControllerBase
     {
@@ -23,6 +23,7 @@ namespace TestingTask.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetPopulations([FromQuery]GetPopulationsRequestModel request)
         {
             string route = _urlHelper.ActionContext.HttpContext.Request.Path.Value;
