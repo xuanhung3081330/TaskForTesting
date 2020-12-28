@@ -1,0 +1,21 @@
+﻿@page
+@{ 
+    ViewData["Title"] = "About";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>@SayHello("Covid")</h2>
+    <p>It's @DateTime.Now.ToLongDateString()</p>
+
+    <p>ASP.NET Core Razor pages is a page-focused framework for building dynamic<label asp-for="Movie.Title" class="control-label" /></p>
+</body>
+</html>
+
+@{ 
+    string SayHello(string name)
+    {
+        return $"Hello, {name}. Welcome to Razor Pages";
+    }
+}

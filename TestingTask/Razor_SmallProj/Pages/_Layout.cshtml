@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] - Razor</title>
+    <style>
+        .header{
+            color: cadetblue;
+        }
+        .footer{
+            text-align: center;
+            font-size: small;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header">Razor Pages Layout</h1>
+    <hr />
+
+    @RenderBody()
+
+    <hr />
+    <h2 class="footer">@DateTime.Now.Year</h2>
+</body>
+</html>
